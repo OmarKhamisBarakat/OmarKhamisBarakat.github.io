@@ -71,10 +71,6 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 New World
             </button>
-            <button class="btn btn-secondary" onclick="promptClearChunk()" style="background-color: #ef4444; color: white; border: none;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
-                Clear Chunk
-            </button>
             <button class="btn btn-primary" id="saveMcWorldBtn" onclick="saveAndDownload('mcworld')">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 Save .mcworld (iOS 1-Tap)
@@ -122,11 +118,6 @@
             <!-- Presets Bar -->
             <div class="presets-bar">
                 <span class="presets-label">⚡ Quick Presets:</span>
-                
-                <button class="preset-btn preset-redstone" onclick="giveRedstoneEngineer()" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg>
-                    Redstone Engineer
-                </button>
                 <button class="preset-btn preset-sponge" onclick="fillEmptySlotsWithSponges()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle></svg>
                     Fill 64 Sponges
@@ -142,10 +133,6 @@
                 <button class="preset-btn preset-weapon" onclick="giveGodToolsPackage()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="14.5" y1="17.5" x2="3" y2="6"></line><line x1="17.5" y1="14.5" x2="6" y2="3"></line><line x1="3" y1="3" x2="21" y2="21"></line></svg>
                     God Weapon Pack
-                </button>
-                <button class="preset-btn preset-ench" style="background-color: #3b82f6; color: white;" onclick="giveGodFishingRod()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                    God Fishing Rod
                 </button>
                 <button class="preset-btn preset-danger" onclick="clearAllInventory()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></line></svg>
@@ -170,28 +157,6 @@
                             <div class="offhand-wrapper">
                                 <div class="offhand-grid" id="offhandGrid"></div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Player Stats & Entities -->
-                    <div class="section-block">
-                        <div class="section-header-row">
-                            <div class="section-title">Player Stats</div>
-                            <span class="section-badge">Entity Editor</span>
-                        </div>
-                        <div class="form-row-2" style="margin-top: 10px;">
-                            <div class="form-group">
-                                <label for="playerHealth">Health (Max 20)</label>
-                                <input type="number" id="playerHealth" min="0" max="20" step="1" onchange="updatePlayerStats()">
-                            </div>
-                            <div class="form-group">
-                                <label for="playerHunger">Hunger (Max 20)</label>
-                                <input type="number" id="playerHunger" min="0" max="20" step="1" onchange="updatePlayerStats()">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="playerXp">XP Level</label>
-                            <input type="number" id="playerXp" min="0" step="1" onchange="updatePlayerStats()">
                         </div>
                     </div>
 
@@ -265,17 +230,6 @@
                             <input type="text" id="editorCustomName" placeholder="e.g. Blade of the Nether">
                         </div>
 
-                        <div class="form-row-2" id="mapFields" style="display:none;">
-                            <div class="form-group">
-                                <label for="editorMapUuid">Map UUID (Integer)</label>
-                                <input type="number" id="editorMapUuid" placeholder="e.g. 0">
-                            </div>
-                            <div class="form-group">
-                                <label for="editorMapScale">Map Scale</label>
-                                <input type="number" id="editorMapScale" min="0" max="4" value="0">
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <div class="enchantment-header-row">
                                 <label>Enchantments</label>
@@ -319,7 +273,6 @@ const OFFHAND_SVG = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
 
 let sessionId = null;
 let uploadedFileName = '';
-const API_BASE = 'https://social-horses-swim.loca.lt';
 let inventoryData = null;
 let selectedSlot = null;
 let editorItemId = '';
@@ -372,7 +325,7 @@ async function uploadFile(file) {
     formData.append('world', file);
 
     try {
-        const res = await fetch(API_BASE + '/upload', { method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' }, body: formData, headers: { 'Bypass-Tunnel-Reminder': 'true' } });
+        const res = await fetch('/upload', { method: 'POST', body: formData });
         const data = await res.json();
 
         if (!res.ok) {
@@ -406,29 +359,6 @@ function renderInventory() {
     renderSlotGrid('mainGrid', inventoryData.main, 'main');
     renderArmorGrid();
     renderOffhandGrid();
-}
-
-function renderInventory() {
-    renderSlotGrid('hotbarGrid', inventoryData.hotbar, 'hotbar');
-    renderSlotGrid('mainGrid', inventoryData.main, 'main');
-    renderArmorGrid();
-    renderOffhandGrid();
-
-    // Render Player Stats
-    if (inventoryData.stats) {
-        document.getElementById('playerHealth').value = inventoryData.stats.health !== undefined ? inventoryData.stats.health : 20;
-        document.getElementById('playerHunger').value = inventoryData.stats.hunger !== undefined ? inventoryData.stats.hunger : 20;
-        document.getElementById('playerXp').value = inventoryData.stats.xp_level !== undefined ? inventoryData.stats.xp_level : 0;
-    }
-}
-
-function updatePlayerStats() {
-    if (!inventoryData) return;
-    if (!inventoryData.stats) inventoryData.stats = {};
-    inventoryData.stats.health = parseFloat(document.getElementById('playerHealth').value) || 20;
-    inventoryData.stats.hunger = parseFloat(document.getElementById('playerHunger').value) || 20;
-    inventoryData.stats.xp_level = parseInt(document.getElementById('playerXp').value) || 0;
-    showNotification('Player Stats updated', 'success');
 }
 
 function renderSlotGrid(gridId, items, section) {
@@ -615,15 +545,6 @@ function selectSlot(section, index) {
         document.getElementById('editorCount').value = item.count || 1;
         document.getElementById('editorDamage').value = item.damage || 0;
         document.getElementById('editorCustomName').value = item.customName || '';
-
-        // Map Specific Tags
-        if (item.name === 'minecraft:filled_map' || item.name === 'minecraft:map') {
-            document.getElementById('mapFields').style.display = 'flex';
-            document.getElementById('editorMapUuid').value = item._raw && item._raw.tag && item._raw.tag.map_uuid ? item._raw.tag.map_uuid : 0;
-            document.getElementById('editorMapScale').value = item._raw && item._raw.tag && item._raw.tag.map_scale ? item._raw.tag.map_scale : 0;
-        } else {
-            document.getElementById('mapFields').style.display = 'none';
-        }
     } else {
         editorItemId = '';
         editorEnchantments = [];
@@ -635,7 +556,6 @@ function selectSlot(section, index) {
         document.getElementById('editorCount').value = 1;
         document.getElementById('editorDamage').value = 0;
         document.getElementById('editorCustomName').value = '';
-        document.getElementById('mapFields').style.display = 'none';
     }
 
     renderEnchantmentList();
@@ -758,16 +678,8 @@ function applyChanges() {
             damage: damage,
             customName: customName,
             enchantments: editorEnchantments.map(e => ({ ...e })),
-            _raw: (orig && orig.name === editorItemId) ? orig._raw : { tag: {} }
+            _raw: (orig && orig.name === editorItemId) ? orig._raw : null
         };
-
-        if (editorItemId === 'minecraft:filled_map' || editorItemId === 'minecraft:map') {
-            if (!itemObj._raw) itemObj._raw = { tag: {} };
-            if (!itemObj._raw.tag) itemObj._raw.tag = {};
-            itemObj._raw.tag.map_uuid = parseInt(document.getElementById('editorMapUuid').value) || 0;
-            itemObj._raw.tag.map_scale = parseInt(document.getElementById('editorMapScale').value) || 0;
-        }
-
         setItemAtSlot(selectedSlot.section, selectedSlot.index, itemObj);
     }
 
@@ -884,322 +796,5 @@ function giveGodToolsPackage() {
     showNotification('Spawned Full God Weapon & Survival Pack in Hotbar!', 'success');
 }
 
-function giveGodFishingRod() {
-    if (!inventoryData) return;
-    const fishingRod = {
-        name: 'minecraft:fishing_rod',
-        count: 1,
-        slot: 0, // Will be placed in first empty hotbar slot
-        damage: 0,
-        customName: 'God Fishing Rod',
-        enchantments: [
-            { id: 23, lvl: 3 }, // Luck of the Sea III
-            { id: 24, lvl: 3 }, // Lure III
-            { id: 17, lvl: 3 }, // Unbreaking III
-            { id: 26, lvl: 1 }  // Mending
-        ]
-    };
-    
-    let placed = false;
-    for (let i = 0; i < 9; i++) {
-        if (!inventoryData.hotbar[i] || !inventoryData.hotbar[i].name) {
-            fishingRod.slot = i;
-            inventoryData.hotbar[i] = fishingRod;
-            placed = true;
-            break;
-        }
-    }
-    
-    if (!placed) {
-        inventoryData.hotbar[0] = fishingRod; // Override slot 1 if full
-    }
-    
-    renderInventory();
-    showNotification('Spawned God Fishing Rod in Hotbar!', 'success');
-}
-
-function giveRedstoneEngineer() {
-    if (!inventoryData) return;
-    const redstoneItems = [
-        { name: 'minecraft:redstone', count: 64, damage: 0, customName: 'Engineer Dust' },
-        { name: 'minecraft:repeater', count: 64, damage: 0 },
-        { name: 'minecraft:comparator', count: 64, damage: 0 },
-        { name: 'minecraft:sticky_piston', count: 64, damage: 0 },
-        { name: 'minecraft:piston', count: 64, damage: 0 },
-        { name: 'minecraft:observer', count: 64, damage: 0 },
-        { name: 'minecraft:slime', count: 64, damage: 0 },
-        { name: 'minecraft:redstone_block', count: 64, damage: 0 },
-        { name: 'minecraft:hopper', count: 64, damage: 0 }
-    ];
-
-    let placed = 0;
-    // Fill main inventory (backpack) instead of hotbar to avoid "inventory full" errors in-game 
-    // when receiving items from NPCs, since NPCs check the hotbar first.
-    for (let i = 0; i < 27 && placed < redstoneItems.length; i++) {
-        if (!inventoryData.main[i] || !inventoryData.main[i].name) {
-            let item = { ...redstoneItems[placed], slot: i + 9 };
-            inventoryData.main[i] = item;
-            placed++;
-        }
-    }
-    
-    renderInventory();
-    showNotification('Redstone Engineer Pack added to your backpack!', 'success');
-}
-
 function clearAllInventory() {
     if (!confirm('Are you sure you want to clear your entire inventory?')) return;
-    for (let i = 0; i < 9; i++) inventoryData.hotbar[i] = null;
-    for (let i = 0; i < 27; i++) inventoryData.main[i] = null;
-    for (let i = 0; i < 4; i++) inventoryData.armor[i] = null;
-    inventoryData.offhand = [null];
-    renderInventory();
-    if (selectedSlot) selectSlot(selectedSlot.section, selectedSlot.index);
-    showNotification('Inventory Cleared!', 'success');
-}
-
-async function promptClearChunk() {
-    if (!sessionId) {
-        showNotification("Please upload a world first.", "error");
-        return;
-    }
-    const coords = prompt("Enter Chunk Coordinates (X Z) separated by space, e.g. '10 -5':\n\nThis will remove Stone, Dirt, Grass, Deepslate, Andesite, Diorite, and Granite from the chunk.");
-    if (!coords) return;
-    
-    const parts = coords.trim().split(/\s+/);
-    if (parts.length !== 2) {
-        showNotification("Invalid format. Please enter two numbers.", "error");
-        return;
-    }
-    
-    const chunkX = parseInt(parts[0]);
-    const chunkZ = parseInt(parts[1]);
-    
-    if (isNaN(chunkX) || isNaN(chunkZ)) {
-        showNotification("Invalid numbers.", "error");
-        return;
-    }
-    
-    if (!confirm(`Are you sure you want to clear terrain in Chunk X:${chunkX} Z:${chunkZ}? This action is irreversible on the currently loaded world.`)) return;
-    
-    showLoading(`Clearing terrain in Chunk X:${chunkX} Z:${chunkZ}...`);
-    try {
-        const res = await fetch(API_BASE + '/clear_chunk', {
-            method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sessionId, chunkX, chunkZ })
-        });
-        const data = await res.json();
-        hideLoading();
-        if (data.error) {
-            showNotification(data.error, "error");
-        } else {
-            showNotification(`Success! Cleared ${data.cleared_subchunks} subchunks in Chunk ${chunkX}, ${chunkZ}.`, "success");
-        }
-    } catch (err) {
-        hideLoading();
-        showNotification("Error communicating with server.", "error");
-    }
-}
-
-// Modal Item Picker
-let currentCategory = 'all';
-
-function openItemPicker() {
-    document.getElementById('itemPickerModal').classList.add('open');
-    document.getElementById('modalSearchInput').value = '';
-    currentCategory = 'all';
-    buildCategoryButtons();
-    filterModalItems();
-    setTimeout(() => document.getElementById('modalSearchInput').focus(), 50);
-}
-
-function closeItemPicker() {
-    document.getElementById('itemPickerModal').classList.remove('open');
-}
-
-function buildCategoryButtons() {
-    const container = document.getElementById('modalCategories');
-    const categories = ['all', ...new Set(ITEMS_DB.map(i => i.category || 'misc'))];
-    container.innerHTML = '';
-
-    categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'category-btn' + (cat === currentCategory ? ' active' : '');
-        btn.textContent = cat.toUpperCase();
-        btn.onclick = () => {
-            currentCategory = cat;
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filterModalItems();
-        };
-        container.appendChild(btn);
-    });
-}
-
-function filterModalItems() {
-    const query = document.getElementById('modalSearchInput').value.toLowerCase().trim();
-    const grid = document.getElementById('modalItemsGrid');
-    grid.innerHTML = '';
-
-    let filtered = ITEMS_DB;
-    if (currentCategory !== 'all') {
-        filtered = filtered.filter(i => (i.category || 'misc') === currentCategory);
-    }
-    if (query) {
-        filtered = filtered.filter(i => (i.name && i.name.toLowerCase().includes(query)) || (i.id && i.id.toLowerCase().includes(query)));
-    }
-
-    filtered.forEach(item => {
-        const el = document.createElement('div');
-        el.className = 'modal-item';
-        el.title = item.name;
-
-        const img = document.createElement('img');
-        img.src = getIconUrl(item.id);
-        img.alt = item.name;
-        img.loading = 'lazy';
-        img.onerror = function() {
-            this.style.display = 'none';
-            if (this.nextElementSibling) this.nextElementSibling.style.display = 'flex';
-        };
-        el.appendChild(img);
-
-        const fallback = document.createElement('div');
-        fallback.className = 'modal-item-fallback';
-        fallback.style.display = 'none';
-        fallback.textContent = item.emoji || '📦';
-        el.appendChild(fallback);
-
-        const label = document.createElement('span');
-        label.className = 'modal-item-label';
-        label.textContent = item.name;
-        el.appendChild(label);
-
-        el.onclick = () => {
-            selectItem(item);
-            closeItemPicker();
-        };
-
-        grid.appendChild(el);
-    });
-}
-
-function selectItem(item) {
-    editorItemId = item.id;
-    document.getElementById('editorItemName').textContent = item.name;
-    document.getElementById('editorItemIdDisplay').textContent = item.id;
-
-    const iconImg = document.getElementById('editorItemIcon');
-    const emojiSpan = document.getElementById('editorItemEmoji');
-    iconImg.src = getIconUrl(item.id);
-    iconImg.style.display = 'block';
-    emojiSpan.style.display = 'none';
-    iconImg.onerror = () => {
-        iconImg.style.display = 'none';
-        emojiSpan.textContent = item.emoji || '📦';
-        emojiSpan.style.display = 'block';
-    };
-
-    const countInput = document.getElementById('editorCount');
-    const maxStack = item.maxStack || 64;
-    if (parseInt(countInput.value) > maxStack) {
-        countInput.value = maxStack;
-    }
-    countInput.max = maxStack;
-}
-
-// Save and Download
-async function saveAndDownload(format = 'mcworld') {
-    if (!sessionId || !inventoryData) return;
-    const isMcWorld = format === 'mcworld';
-    showLoading(isMcWorld ? 'Saving world and packaging 1-Tap .mcworld archive...' : 'Saving world and packaging .zip archive...');
-
-    try {
-        const res = await fetch(API_BASE + '/save', {
-            method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sessionId, inventory: inventoryData, format: format }),
-        });
-
-        if (!res.ok) {
-            const err = await res.json();
-            hideLoading();
-            showNotification(err.error || 'Save failed', 'error');
-            return;
-        }
-
-        const base = uploadedFileName.replace(/\.(zip|mcworld|dat)$/i, '') || 'world';
-        const defaultExt = isMcWorld ? 'mcworld' : 'zip';
-        let downloadName = `${base}_modified.${defaultExt}`;
-
-        const disposition = res.headers.get('Content-Disposition');
-        if (disposition && disposition.includes('filename=')) {
-            const match = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-            if (match && match[1]) downloadName = match[1].replace(/['"]/g, '');
-        }
-
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = downloadName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        hideLoading();
-        showNotification(isMcWorld ? 'World saved! Tap the .mcworld file on iOS to import directly into Minecraft.' : 'World saved as .zip! Check your downloads.', 'success');
-    } catch (err) {
-        hideLoading();
-        showNotification('Error saving world: ' + err.message, 'error');
-    }
-}
-
-function resetEditor() {
-    sessionId = null;
-    uploadedFileName = '';
-    inventoryData = null;
-    selectedSlot = null;
-    editorItemId = '';
-    editorEnchantments = [];
-
-    document.getElementById('uploadScreen').style.display = '';
-    document.getElementById('editorScreen').classList.remove('active');
-    document.getElementById('headerActions').style.display = 'none';
-    document.getElementById('fileInput').value = '';
-    document.getElementById('worldFileNameDisplay').textContent = 'Direct .mcworld / .zip / .dat Player Inventory Manipulator';
-    document.getElementById('editorEmpty').style.display = '';
-    document.getElementById('editorContent').style.display = 'none';
-}
-
-function showLoading(text) {
-    document.getElementById('loadingText').textContent = text;
-    document.getElementById('loadingOverlay').classList.remove('hidden');
-}
-
-function hideLoading() {
-    document.getElementById('loadingOverlay').classList.add('hidden');
-}
-
-function showNotification(text, type) {
-    const notif = document.getElementById('notification');
-    const icon = document.getElementById('notifIcon');
-    const textEl = document.getElementById('notifText');
-
-    icon.textContent = type === 'success' ? '✓' : '✕';
-    textEl.textContent = text;
-    notif.className = 'notification ' + type;
-    requestAnimationFrame(() => notif.classList.add('show'));
-    setTimeout(() => notif.classList.remove('show'), 4000);
-}
-
-document.getElementById('itemPickerModal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('itemPickerModal')) closeItemPicker();
-});
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeItemPicker();
-});
-</script>
-</body>
-</html>

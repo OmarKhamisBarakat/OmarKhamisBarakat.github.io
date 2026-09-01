@@ -8,11 +8,9 @@ import tempfile
 import zipfile
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_file
-from flask_cors import CORS
 import nbtlib
 
 app = Flask(__name__)
-CORS(app)
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
 app.config['JSON_AS_ASCII'] = False
 
@@ -261,19 +259,7 @@ def parse_inventory(root):
         "main": [None] * 27,
         "armor": [None] * 4,
         "offhand": [None],
-        "stats": {}
     }
-
-    # Extract Player Stats
-    attrs = root.get("Attributes", [])
-    for attr in attrs:
-        name = str(attr.get("Name", ""))
-        if name == "minecraft:health":
-            result["stats"]["health"] = float(attr.get("Current", 20.0))
-        elif name == "minecraft:player.hunger":
-            result["stats"]["hunger"] = float(attr.get("Current", 20.0))
-    if "PlayerLevel" in root:
-        result["stats"]["xp_level"] = int(root.get("PlayerLevel", 0))
 
     inv_tag = root.get("Inventory")
     if inv_tag is not None:
@@ -308,19 +294,6 @@ def parse_inventory(root):
     return result
 
 def update_inventory(root, inventory):
-    # Update Player Stats
-    stats = inventory.get("stats", {})
-    if stats:
-        attrs = root.get("Attributes", [])
-        for attr in attrs:
-            name = str(attr.get("Name", ""))
-            if name == "minecraft:health" and "health" in stats:
-                attr["Current"] = nbtlib.Float(stats["health"])
-            elif name == "minecraft:player.hunger" and "hunger" in stats:
-                attr["Current"] = nbtlib.Float(stats["hunger"])
-        if "xp_level" in stats:
-            root["PlayerLevel"] = nbtlib.Int(stats["xp_level"])
-
     # Hotbar & Main storage items
     items = []
     for slot_idx in range(9):
@@ -563,20 +536,17 @@ def save():
     ext = 'mcworld' if export_format == 'mcworld' else 'zip'
     output_filename = f"{base_name}_modified.{ext}"
     output_path = os.path.join(session['temp_dir'], output_filename)
-    
-    # For .mcworld, we must zip the contents of world_root directly so level.dat is at the top.
-    # For .zip, we should zip the entire extract_dir to preserve whatever wrapper folders the user had!
-    pack_root = session.get('world_root', session['extract_dir']) if ext == 'mcworld' else session['extract_dir']
+    world_root = session.get('world_root', session['extract_dir'])
 
     with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zf:
-        for dirpath, dirnames, filenames in os.walk(pack_root):
+        for dirpath, dirnames, filenames in os.walk(world_root):
             if '__MACOSX' in dirpath:
                 continue
             for fname in filenames:
                 if fname == '.DS_Store' or fname.startswith('._'):
                     continue
                 file_path = os.path.join(dirpath, fname)
-                arc_name = os.path.relpath(file_path, pack_root)
+                arc_name = os.path.relpath(file_path, world_root)
                 zf.write(file_path, arc_name)
 
     mimetype = 'application/x-minecraft-world' if ext == 'mcworld' else 'application/zip'
@@ -586,64 +556,6 @@ def save():
         download_name=output_filename,
         mimetype=mimetype,
     )
-
-@app.route('/clear_chunk', methods=['POST'])
-def clear_chunk():
-    data = request.json or {}
-    session_id = data.get('sessionId')
-    chunk_x = int(data.get('chunkX', 0))
-    chunk_z = int(data.get('chunkZ', 0))
-
-    if not session_id:
-        return jsonify({"error": "Missing sessionId."}), 400
-
-    session = sessions.get(session_id)
-    if not session or not session.get('db_path'):
-        return jsonify({"error": "Session expired or invalid world."}), 400
-
-    blocks_to_remove = ["minecraft:stone", "minecraft:dirt", "minecraft:grass", "minecraft:deepslate", "minecraft:diorite", "minecraft:andesite", "minecraft:granite"]
-    
-    try:
-        from leveldb import LevelDB
-        import struct
-        db = LevelDB(session['db_path'])
-        
-        # Bedrock Overworld chunk keys start with ChunkX (4 bytes LE) + ChunkZ (4 bytes LE)
-        chunk_prefix = struct.pack('<ii', chunk_x, chunk_z)
-        
-        cleared_count = 0
-        for k in db.keys():
-            if k.startswith(chunk_prefix) and len(k) >= 9:
-                # Type 47 (0x2F) is SubChunkPrefix
-                key_type = k[8] if len(k) == 9 or len(k) == 10 else (k[12] if len(k) >= 13 else None)
-                if key_type == 0x2F:
-                    val = bytearray(db.get(k))
-                    # Super naive string replace: Replace matched blocks with minecraft:air padded with spaces to keep exact byte length
-                    # This avoids parsing the binary structure while tricking Bedrock into loading an air block (spaces might be ignored or fallback to update block/air)
-                    # Actually, Bedrock might show "update" blocks if it doesn't recognize "air ". 
-                    # A safer byte-replace: since strings are prefixed with 2-byte length, we can't easily change length without shifting.
-                    # But if we change it to 'minecraft:air', the game might just see it as air.
-                    
-                    modified = False
-                    for block in blocks_to_remove:
-                        b_bytes = block.encode('utf-8')
-                        idx = val.find(b_bytes)
-                        while idx != -1:
-                            # We found the block string. We can replace it with air + padding.
-                            # We just replace the string. Bedrock actually falls back to air for unknown blocks anyway!
-                            # So replacing "minecraft:stone" with "minecraf:air   " will make it an unknown block -> air!
-                            val[idx:idx+len(b_bytes)] = b'minecraft:air'.ljust(len(b_bytes), b' ')
-                            modified = True
-                            idx = val.find(b_bytes, idx + 1)
-                    
-                    if modified:
-                        db.put(k, bytes(val))
-                        cleared_count += 1
-
-        db.close()
-        return jsonify({"success": True, "cleared_subchunks": cleared_count})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     load_data()
