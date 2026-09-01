@@ -8,9 +8,11 @@ import tempfile
 import zipfile
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_file
+from flask_cors import CORS
 import nbtlib
 
 app = Flask(__name__)
+CORS(app)
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
 app.config['JSON_AS_ASCII'] = False
 
@@ -561,17 +563,20 @@ def save():
     ext = 'mcworld' if export_format == 'mcworld' else 'zip'
     output_filename = f"{base_name}_modified.{ext}"
     output_path = os.path.join(session['temp_dir'], output_filename)
-    world_root = session.get('world_root', session['extract_dir'])
+    
+    # For .mcworld, we must zip the contents of world_root directly so level.dat is at the top.
+    # For .zip, we should zip the entire extract_dir to preserve whatever wrapper folders the user had!
+    pack_root = session.get('world_root', session['extract_dir']) if ext == 'mcworld' else session['extract_dir']
 
     with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zf:
-        for dirpath, dirnames, filenames in os.walk(world_root):
+        for dirpath, dirnames, filenames in os.walk(pack_root):
             if '__MACOSX' in dirpath:
                 continue
             for fname in filenames:
                 if fname == '.DS_Store' or fname.startswith('._'):
                     continue
                 file_path = os.path.join(dirpath, fname)
-                arc_name = os.path.relpath(file_path, world_root)
+                arc_name = os.path.relpath(file_path, pack_root)
                 zf.write(file_path, arc_name)
 
     mimetype = 'application/x-minecraft-world' if ext == 'mcworld' else 'application/zip'
