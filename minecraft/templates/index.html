@@ -319,6 +319,7 @@ const OFFHAND_SVG = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
 
 let sessionId = null;
 let uploadedFileName = '';
+const API_BASE = 'https://social-horses-swim.loca.lt';
 let inventoryData = null;
 let selectedSlot = null;
 let editorItemId = '';
@@ -371,7 +372,7 @@ async function uploadFile(file) {
     formData.append('world', file);
 
     try {
-        const res = await fetch('/upload', { method: 'POST', body: formData });
+        const res = await fetch(API_BASE + '/upload', { method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' }, body: formData, headers: { 'Bypass-Tunnel-Reminder': 'true' } });
         const data = await res.json();
 
         if (!res.ok) {
@@ -983,8 +984,8 @@ async function promptClearChunk() {
     
     showLoading(`Clearing terrain in Chunk X:${chunkX} Z:${chunkZ}...`);
     try {
-        const res = await fetch('/clear_chunk', {
-            method: 'POST',
+        const res = await fetch(API_BASE + '/clear_chunk', {
+            method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' },
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sessionId, chunkX, chunkZ })
         });
@@ -1115,8 +1116,8 @@ async function saveAndDownload(format = 'mcworld') {
     showLoading(isMcWorld ? 'Saving world and packaging 1-Tap .mcworld archive...' : 'Saving world and packaging .zip archive...');
 
     try {
-        const res = await fetch('/save', {
-            method: 'POST',
+        const res = await fetch(API_BASE + '/save', {
+            method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' },
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sessionId, inventory: inventoryData, format: format }),
         });
