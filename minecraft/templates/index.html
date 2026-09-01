@@ -986,7 +986,6 @@ async function promptClearChunk() {
     try {
         const res = await fetch(API_BASE + '/clear_chunk', {
             method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' },
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sessionId, chunkX, chunkZ })
         });
         const data = await res.json();
@@ -1118,7 +1117,6 @@ async function saveAndDownload(format = 'mcworld') {
     try {
         const res = await fetch(API_BASE + '/save', {
             method: 'POST', headers: { 'Bypass-Tunnel-Reminder': 'true', 'Content-Type': 'application/json' },
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sessionId, inventory: inventoryData, format: format }),
         });
 
