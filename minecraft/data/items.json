@@ -434,9 +434,9 @@
   {"id":"minecraft:trial_spawner","name":"Trial Spawner","category":"blocks","maxStack":64,"enchantable":false,"emoji":"👹"},
   {"id":"minecraft:vault","name":"Vault","category":"blocks","maxStack":64,"enchantable":false,"emoji":"🔒"},
   {"id":"minecraft:heavy_core","name":"Heavy Core","category":"blocks","maxStack":64,"enchantable":false,"emoji":"⚙️"},
-  {"id":"minecraft:crafter","name":"Crafter","category":"blocks","maxStack":64,"enchantable":false,"emoji":"🔧"},
-  {"id":"minecraft:fishing_rod","name":"Fishing Rod","category":"tools","maxStack":1,"enchantable":true,"emoji":"🎣"},
-  {"id":"minecraft:map","name":"Map","category":"items","maxStack":64,"enchantable":false,"emoji":"🗺️"},
-  {"id":"minecraft:empty_map","name":"Empty Map","category":"items","maxStack":64,"enchantable":false,"emoji":"🗺️"},
-  {"id":"minecraft:filled_map","name":"Filled Map","category":"items","maxStack":64,"enchantable":false,"emoji":"🗺️"}
+  {"id":"minecraft:crafter","name":"Crafter","category":"blocks","maxStack":64,"enchantable":false,"emoji":""},
+  {"id":"minecraft:fishing_rod","name":"Fishing Rod","category":"tools","maxStack":1,"enchantable":true,"emoji":""},
+  {"id":"minecraft:map","name":"Map","category":"items","maxStack":64,"enchantable":false,"emoji":""},
+  {"id":"minecraft:empty_map","name":"Empty Map","category":"items","maxStack":64,"enchantable":false,"emoji":""},
+  {"id":"minecraft:filled_map","name":"Filled Map","category":"items","maxStack":64,"enchantable":false,"emoji":""}
 ]
