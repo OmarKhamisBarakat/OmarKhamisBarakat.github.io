@@ -122,6 +122,11 @@
             <!-- Presets Bar -->
             <div class="presets-bar">
                 <span class="presets-label">⚡ Quick Presets:</span>
+                
+                <button class="preset-btn preset-redstone" onclick="giveRedstoneEngineer()" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg>
+                    Redstone Engineer
+                </button>
                 <button class="preset-btn preset-sponge" onclick="fillEmptySlotsWithSponges()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle></svg>
                     Fill 64 Sponges
@@ -910,6 +915,35 @@ function giveGodFishingRod() {
     
     renderInventory();
     showNotification('Spawned God Fishing Rod in Hotbar!', 'success');
+}
+
+function giveRedstoneEngineer() {
+    if (!inventoryData) return;
+    const redstoneItems = [
+        { name: 'minecraft:redstone', count: 64, damage: 0, customName: 'Engineer Dust' },
+        { name: 'minecraft:repeater', count: 64, damage: 0 },
+        { name: 'minecraft:comparator', count: 64, damage: 0 },
+        { name: 'minecraft:sticky_piston', count: 64, damage: 0 },
+        { name: 'minecraft:piston', count: 64, damage: 0 },
+        { name: 'minecraft:observer', count: 64, damage: 0 },
+        { name: 'minecraft:slime', count: 64, damage: 0 },
+        { name: 'minecraft:redstone_block', count: 64, damage: 0 },
+        { name: 'minecraft:hopper', count: 64, damage: 0 }
+    ];
+
+    let placed = 0;
+    // Fill main inventory (backpack) instead of hotbar to avoid "inventory full" errors in-game 
+    // when receiving items from NPCs, since NPCs check the hotbar first.
+    for (let i = 0; i < 27 && placed < redstoneItems.length; i++) {
+        if (!inventoryData.main[i] || !inventoryData.main[i].name) {
+            let item = { ...redstoneItems[placed], slot: i + 9 };
+            inventoryData.main[i] = item;
+            placed++;
+        }
+    }
+    
+    renderInventory();
+    showNotification('Redstone Engineer Pack added to your backpack!', 'success');
 }
 
 function clearAllInventory() {
